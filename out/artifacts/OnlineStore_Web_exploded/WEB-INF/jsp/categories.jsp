@@ -27,6 +27,7 @@
     </style>
 </head>
 <body>
+<%@include file="logout.jsp"%>
 <h1>Mагазин бытовой техники:</h1>
 <ul class="grad">
     <c:forEach  var="technic" items="${requestScope.technics}">

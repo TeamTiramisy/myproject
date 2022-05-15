@@ -8,6 +8,7 @@
     </style>
 </head>
 <body>
+<%@include file="logout.jsp"%>
 <h1>${requestScope.product.name}</h1>
 <img src="${pageContext.request.contextPath}/images/${requestScope.product.image}" alt="Product image">
 <p>${requestScope.product.description}</p>

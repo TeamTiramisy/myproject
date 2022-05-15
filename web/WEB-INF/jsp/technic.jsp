@@ -9,6 +9,7 @@
     </style>
 </head>
 <body>
+<%@include file="logout.jsp"%>
 <c:choose>
 <c:when test="${not empty requestScope.categories}">
 <%--<h1>${param.category}:</h1>--%>

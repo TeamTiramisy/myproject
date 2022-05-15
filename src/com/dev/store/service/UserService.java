@@ -2,13 +2,17 @@ package com.dev.store.service;
 
 import com.dev.store.DAO.UserDao;
 import com.dev.store.dto.UserCreateDto;
+import com.dev.store.dto.UserReadDto;
 import com.dev.store.entity.User;
 import com.dev.store.exception.ValidationException;
 import com.dev.store.mapper.UserCreateMapper;
+import com.dev.store.mapper.UserReadMapper;
 import com.dev.store.validator.CreateUserValidator;
 import com.dev.store.validator.ValidationResult;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserService {
@@ -18,7 +22,12 @@ public class UserService {
     private final CreateUserValidator validator = CreateUserValidator.getInstance();
     private final UserDao userDao = UserDao.getInstance();
     private final UserCreateMapper mapper = UserCreateMapper.getInstance();
+    private final UserReadMapper readMapper = UserReadMapper.getInstance();
 
+    public Optional<UserReadDto> login(String email, String password){
+        return userDao.findByEmailAndPassword(email, password)
+                .map(readMapper::map);
+    }
 
     public Long create(UserCreateDto userDto){
         ValidationResult valid = validator.isValid(userDto);

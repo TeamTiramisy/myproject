@@ -1,6 +1,6 @@
 package com.dev.store.DAO;
 
-import com.dev.store.entity.User;
+import com.dev.store.entity.*;
 import com.dev.store.util.ConnectionManager;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -25,6 +25,10 @@ public class UserDao implements Dao<Long, User> {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
             """;
 
+    private static final String FIND_BY_EMAIL_AND_PASSWORD = """
+            SELECT * FROM users WHERE email = ? AND password = ?
+            """;
+
     @Override
     public List<User> findAll() {
         return null;
@@ -33,6 +37,25 @@ public class UserDao implements Dao<Long, User> {
     @Override
     public Optional<User> findById(Long id) {
         return Optional.empty();
+    }
+
+    @SneakyThrows
+    public Optional<User> findByEmailAndPassword(String email, String password) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_EMAIL_AND_PASSWORD)) {
+
+            preparedStatement.setObject(1, email);
+            preparedStatement.setObject(2, password);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            User user = null;
+
+            if (resultSet.next()) {
+                user = buildUser(resultSet);
+            }
+            return Optional.ofNullable(user);
+        }
     }
 
     @Override
@@ -68,7 +91,22 @@ public class UserDao implements Dao<Long, User> {
         }
     }
 
-    public static UserDao getInstance(){
+    public static UserDao getInstance() {
         return INSTANCE;
+    }
+
+    @SneakyThrows
+    private User buildUser(ResultSet resultSet) {
+        return new User(
+                resultSet.getObject("id", Long.class),
+                resultSet.getObject("firstname", String.class),
+                resultSet.getObject("lastname", String.class),
+                resultSet.getObject("email", String.class),
+                resultSet.getObject("password", String.class),
+                resultSet.getObject("tel", String.class),
+                resultSet.getObject("address", String.class),
+                Role.valueOf(resultSet.getObject("role", String.class)),
+                Gender.valueOf(resultSet.getObject("gender", String.class))
+        );
     }
 }
