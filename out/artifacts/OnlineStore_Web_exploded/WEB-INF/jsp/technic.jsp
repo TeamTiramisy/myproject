@@ -12,24 +12,23 @@
 <%@include file="logout.jsp"%>
 <c:choose>
 <c:when test="${not empty requestScope.categories}">
-<%--<h1>${param.category}:</h1>--%>
     <c:if test="${param.category eq 'PHONE'}">
-        <h1>Телефоны<br></h1>
+        <h1>Телефоны:<br></h1>
     </c:if>
     <c:if test="${param.category eq 'REFRIGERATOR'}">
-        <h1>Холодильники<br></h1>
+        <h1>Холодильники:<br></h1>
     </c:if>
     <c:if test="${param.category eq 'TV'}">
-        <h1>Телевизоры<br></h1>
+        <h1>Телевизоры:<br></h1>
     </c:if>
     <c:if test="${param.category eq 'COMPUTER'}">
-        <h1>Компьюторы<br></h1>
+        <h1>Компьюторы:<br></h1>
     </c:if>
     <c:if test="${param.category eq 'LAPTOP'}">
-        <h1>Ноутбуки<br></h1>
+        <h1>Ноутбуки:<br></h1>
     </c:if>
     <c:if test="${param.category eq 'CONSOLE'}">
-        <h1>Игровые приставки<br></h1>
+        <h1>Игровые приставки:<br></h1>
     </c:if>
 <c:forEach var="category" items="${requestScope.categories}">
     <img src="${pageContext.request.contextPath}/images/${category.image}" alt="Product image">

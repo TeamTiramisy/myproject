@@ -48,6 +48,12 @@ public class TechnicService {
                 .collect(Collectors.toList());
     }
 
+    public List<TechnicReadDto>findAllByName(String name){
+        return technicDao.findAllByName(name).stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
+    }
+
     public Set<String> findAllCategory(){
         return technicDao.findAll().stream()
                 .map(Technic::getCategory)

@@ -34,6 +34,10 @@ public class TechnicDao implements Dao<Long, Technic>{
             SELECT * FROM technic WHERE id = ?
             """;
 
+    public static final String FIND_ALL_BY_NAME = """
+            SELECT * FROM technic WHERE lower(name) like lower('%' || ? || '%')
+            """;
+
     public static final String ADD_PRODUCT = """
             INSERT INTO technic (name, category, description, price, amount, image) VALUES 
             (?, ?, ?, ?, ?, ?)
@@ -60,6 +64,23 @@ public class TechnicDao implements Dao<Long, Technic>{
         try (Connection connection = ConnectionManager.get();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_BY_CATEGORY)) {
             preparedStatement.setObject(1, category);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Technic> technics = new ArrayList<>();
+
+            while (resultSet.next()){
+                technics.add(buildTechnic(resultSet));
+            }
+
+            return technics;
+        }
+    }
+
+    @SneakyThrows
+    public List<Technic> findAllByName(String name) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_BY_NAME)) {
+            preparedStatement.setObject(1, name);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Technic> technics = new ArrayList<>();

@@ -29,6 +29,10 @@
 <body>
 <%@include file="logout.jsp"%>
 <h1>Mагазин бытовой техники:</h1>
+<form action="${pageContext.request.contextPath}/search">
+    <input style="font-size: 20px"  id="name" type="search" name="name">
+<%--    <button style="font-size: 30px" type="submit">Найти</button>--%>
+</form>
 <ul class="grad">
     <c:forEach  var="technic" items="${requestScope.technics}">
         <c:if test="${technic eq 'PHONE'}">
