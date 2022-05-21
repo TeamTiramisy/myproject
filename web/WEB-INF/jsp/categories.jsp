@@ -24,13 +24,19 @@
             background: linear-gradient(to right, darkorchid, crimson);
             padding: 10px;
         }
+
+        .sr
+        {
+            font-size: 30px;
+            border-radius: 20px;
+        }
     </style>
 </head>
 <body>
 <%@include file="logout.jsp"%>
 <h1>Mагазин бытовой техники:</h1>
 <form action="${pageContext.request.contextPath}/search">
-    <input style="font-size: 20px"  id="name" type="search" name="name">
+    <input class="sr"  id="name" type="search" name="name" placeholder="&#128269; Поиск товаров">
 <%--    <button style="font-size: 30px" type="submit">Найти</button>--%>
 </form>
 <ul class="grad">

@@ -3,6 +3,9 @@
 <html>
 <head>
     <title>Изменить товар</title>
+    <style>
+        body {line-height: 1.5}
+    </style>
 </head>
 <body>
 <form action="${pageContext.request.contextPath}/update?id=${requestScope.product.id}" method="post">

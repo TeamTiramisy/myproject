@@ -9,13 +9,23 @@
 <html>
 <head>
     <title>Title</title>
+    <style>
+        .btn{
+            background: dodgerblue;
+            color: white;
+            padding: 5px 16px;
+            border: 0px transparent;
+            margin-bottom: 1em;
+        }
+    </style>
 </head>
 <body>
 <a href="${pageContext.request.contextPath}/add">
-    <button type="button">Добавить товар</button>
-</a>
+    <button class="btn" type="button">Добавить товар</button>
+</a><br>
 <a href="${pageContext.request.contextPath}/users">
-    <button type="button">Все пользователи</button>
+    <button class="btn" type="button">Все пользователи</button>
 </a>
+
 </body>
 </html>

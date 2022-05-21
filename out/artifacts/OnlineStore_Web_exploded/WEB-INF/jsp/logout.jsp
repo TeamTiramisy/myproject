@@ -9,13 +9,9 @@
         text-align: right;
         margin-bottom: 1em;
     }
-    div
-    {
-        text-align: right;
-    }
 </style>
 
-<div>
+<div style="text-align: right">
     <c:if test="${sessionScope.user.role eq 'ADMIN'}">
         <a href="${pageContext.request.contextPath}/admin">
             <button class="btn" type="button">Кабинет админа</button>
