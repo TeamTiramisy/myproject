@@ -28,5 +28,8 @@
         </div>
     </c:if>
 </form>
+<form action="${pageContext.request.contextPath}/deletion?id=${requestScope.product.id}" method="post">
+    <button type="submit">Удалить товар</button>
+</form>
 </body>
 </html>

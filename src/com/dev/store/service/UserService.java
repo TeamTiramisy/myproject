@@ -73,6 +73,10 @@ public class UserService {
         return user.getId();
     }
 
+    public boolean delete(Long id){
+        return userDao.delete(id);
+    }
+
     public static UserService getInstance(){
         return INSTANCE;
     }

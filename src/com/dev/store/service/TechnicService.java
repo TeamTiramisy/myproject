@@ -82,10 +82,6 @@ public class TechnicService {
         technicDao.update(technic);
     }
 
-    public static TechnicService getInstance() {
-        return INSTANCE;
-    }
-
     @SneakyThrows
     public Long create(TechnicCreateDto technicCreateDto) {
         ValidationResult valid = updateProductValidator.isValid(technicCreateDto);
@@ -97,5 +93,13 @@ public class TechnicService {
         imageService.upload(technic.getImage(), technicCreateDto.getImage().getInputStream());
         technicDao.save(technic);
         return technic.getId();
+    }
+
+    public boolean delete(Long id){
+        return technicDao.delete(id);
+    }
+
+    public static TechnicService getInstance() {
+        return INSTANCE;
     }
 }

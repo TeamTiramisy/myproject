@@ -52,6 +52,10 @@ public class UserDao implements Dao<Long, User> {
             WHERE id = ?
             """;
 
+    private static String DELETE = """
+            DELETE FROM users WHERE id = ?
+            """;
+
     @SneakyThrows
     @Override
     public List<User> findAll() {
@@ -105,8 +109,14 @@ public class UserDao implements Dao<Long, User> {
     }
 
     @Override
+    @SneakyThrows
     public boolean delete(Long id) {
-        return false;
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
+            preparedStatement.setObject(1, id);
+
+            return preparedStatement.executeUpdate() > 0;
+        }
     }
 
     @SneakyThrows

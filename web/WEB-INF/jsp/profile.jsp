@@ -33,9 +33,6 @@
         <input id="address" type="text" name="address" value="${sessionScope.user.address}">
     </label><br>
     <button type="submit">Изменить</button><br>
-<%--    <label for="tel">Телефон--%>
-<%--        <input id="tel" type="tel" name="tel">--%>
-<%--    </label><br>--%>
     <c:if test="${not empty requestScope.errors}">
         <div class="error" style="color: red">
             <c:forEach var="error" items="${requestScope.errors}">
@@ -43,6 +40,9 @@
             </c:forEach>
         </div>
     </c:if>
+</form>
+<form action="${pageContext.request.contextPath}/delete?id=${sessionScope.user.id}" method="post">
+    <button type="submit">Удалить профель</button>
 </form>
 </body>
 </html>

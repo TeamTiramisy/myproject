@@ -54,6 +54,10 @@ public class TechnicDao implements Dao<Long, Technic>{
             WHERE id = ?
             """;
 
+    private static String DELETE = """
+            DELETE FROM technic WHERE id = ?
+            """;
+
     @SneakyThrows
     @Override
     public List<Technic> findAll() {
@@ -123,8 +127,14 @@ public class TechnicDao implements Dao<Long, Technic>{
     }
 
     @Override
+    @SneakyThrows
     public boolean delete(Long id) {
-        return false;
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
+            preparedStatement.setObject(1, id);
+
+            return preparedStatement.executeUpdate() > 0;
+        }
     }
 
     @SneakyThrows
