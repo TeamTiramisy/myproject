@@ -16,4 +16,5 @@ public class UserReadDto {
     String address;
     String role;
     String gender;
+    String blackList;
 }

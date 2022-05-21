@@ -1,6 +1,7 @@
 package com.dev.store.mapper;
 
 import com.dev.store.dto.UserCreateDto;
+import com.dev.store.entity.BlackList;
 import com.dev.store.entity.Gender;
 import com.dev.store.entity.Role;
 import com.dev.store.entity.User;
@@ -23,6 +24,7 @@ public class UserCreateMapper implements Mapper<UserCreateDto, User>{
                 .address(object.getAddress())
                 .role(Role.valueOf(object.getRole()))
                 .gender(Gender.valueOf(object.getGender()))
+                .blackList(BlackList.valueOf(object.getBlackList()))
                 .build();
     }
 

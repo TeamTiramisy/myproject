@@ -43,6 +43,17 @@ public class TechnicDao implements Dao<Long, Technic>{
             (?, ?, ?, ?, ?, ?)
             """;
 
+    private static final String UPDATE = """
+            UPDATE technic 
+            SET name = ?,
+            category = ?,
+            description = ?,
+            price = ?,
+            amount = ?,
+            image = ?
+            WHERE id = ?
+            """;
+
     @SneakyThrows
     @Override
     public List<Technic> findAll() {
@@ -116,9 +127,21 @@ public class TechnicDao implements Dao<Long, Technic>{
         return false;
     }
 
+    @SneakyThrows
     @Override
     public void update(Technic entity) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
+            preparedStatement.setObject(1, entity.getName());
+            preparedStatement.setObject(2, entity.getCategory().name());
+            preparedStatement.setObject(3, entity.getDescription());
+            preparedStatement.setObject(4, entity.getPrice());
+            preparedStatement.setObject(5, entity.getAmount());
+            preparedStatement.setObject(6, entity.getImage());
+            preparedStatement.setObject(7, entity.getId());
 
+            preparedStatement.executeUpdate();
+        }
     }
 
     @SneakyThrows

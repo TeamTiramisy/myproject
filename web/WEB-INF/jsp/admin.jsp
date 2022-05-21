@@ -11,6 +11,11 @@
     <title>Title</title>
 </head>
 <body>
-Страничка админа
+<a href="${pageContext.request.contextPath}/add">
+    <button type="button">Добавить товар</button>
+</a>
+<a href="${pageContext.request.contextPath}/users">
+    <button type="button">Все пользователи</button>
+</a>
 </body>
 </html>

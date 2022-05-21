@@ -38,6 +38,7 @@ public class RegistrationServlet extends HttpServlet {
                 .address(req.getParameter("address"))
                 .role("USER")
                 .gender(req.getParameter("gender"))
+                .blackList("NO")
                 .build();
 
         try {

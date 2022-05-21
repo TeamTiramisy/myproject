@@ -19,8 +19,11 @@
     <c:if test="${sessionScope.user.role eq 'ADMIN'}">
         <a href="${pageContext.request.contextPath}/admin">
             <button class="btn" type="button">Кабинет админа</button>
-        </a>
+        </a><br>
     </c:if>
+    <a href="${pageContext.request.contextPath}/profile">
+        <button class="btn" type="button">Мой профель</button>
+    </a><br>
     <c:if test="${empty sessionScope.user}">
         <a href="${pageContext.request.contextPath}/login">
             <button class="btn" type="button">Вход</button>

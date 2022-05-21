@@ -9,6 +9,7 @@ import com.dev.store.mapper.TechnicCreateMapper;
 import com.dev.store.mapper.TechnicReadMapper;
 import com.dev.store.util.ConnectionManager;
 import com.dev.store.validator.AddProductValidator;
+import com.dev.store.validator.UpdateProductValidator;
 import com.dev.store.validator.ValidationResult;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -33,28 +34,29 @@ public class TechnicService {
     private final TechnicReadMapper mapper = TechnicReadMapper.getInstance();
     private final TechnicCreateMapper mapperCreate = TechnicCreateMapper.getInstance();
     private final AddProductValidator validator = AddProductValidator.getInstance();
+    private final UpdateProductValidator updateProductValidator = UpdateProductValidator.getInstance();
     private final ImageService imageService = ImageService.getInstance();
 
 
-    public List<TechnicReadDto>findAll(){
+    public List<TechnicReadDto> findAll() {
         return technicDao.findAll().stream()
                 .map(mapper::map)
                 .collect(Collectors.toList());
     }
 
-    public List<TechnicReadDto>findAllByCategory(String category){
+    public List<TechnicReadDto> findAllByCategory(String category) {
         return technicDao.findAllByCategory(category).stream()
                 .map(mapper::map)
                 .collect(Collectors.toList());
     }
 
-    public List<TechnicReadDto>findAllByName(String name){
+    public List<TechnicReadDto> findAllByName(String name) {
         return technicDao.findAllByName(name).stream()
                 .map(mapper::map)
                 .collect(Collectors.toList());
     }
 
-    public Set<String> findAllCategory(){
+    public Set<String> findAllCategory() {
         return technicDao.findAll().stream()
                 .map(Technic::getCategory)
                 .map(Enum::name)
@@ -64,16 +66,30 @@ public class TechnicService {
     public Optional<TechnicReadDto> findById(Long id) {
         return technicDao.findById(id)
                 .map(mapper::map);
+    }
+
+    public void update(Long id, TechnicCreateDto technicCreateDto){
+        ValidationResult valid = updateProductValidator.isValid(technicCreateDto);
+        if (!valid.isValid()) {
+            throw new ValidationException(valid.getErrors());
         }
 
-    public static TechnicService getInstance(){
+        Technic technic = technicDao.findById(id).orElseThrow();
+        technic.setName(technicCreateDto.getName());
+        technic.setDescription(technicCreateDto.getDescription());
+        technic.setPrice(Integer.valueOf(technicCreateDto.getPrice()));
+        technic.setAmount(Integer.valueOf(technicCreateDto.getAmount()));
+        technicDao.update(technic);
+    }
+
+    public static TechnicService getInstance() {
         return INSTANCE;
     }
 
     @SneakyThrows
     public Long create(TechnicCreateDto technicCreateDto) {
-        ValidationResult valid = validator.isValid(technicCreateDto);
-        if (!valid.isValid()){
+        ValidationResult valid = updateProductValidator.isValid(technicCreateDto);
+        if (!valid.isValid()) {
             throw new ValidationException(valid.getErrors());
         }
 

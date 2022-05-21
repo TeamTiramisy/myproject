@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserReadMapper implements Mapper<User, UserReadDto>{
+public class UserReadMapper implements Mapper<User, UserReadDto> {
 
     private final static UserReadMapper INSTANCE = new UserReadMapper();
 
@@ -22,10 +22,11 @@ public class UserReadMapper implements Mapper<User, UserReadDto>{
                 .address(object.getAddress())
                 .role(object.getRole().name())
                 .gender(object.getGender().name())
+                .blackList(object.getBlackList().name())
                 .build();
     }
 
-    public static UserReadMapper getInstance(){
+    public static UserReadMapper getInstance() {
         return INSTANCE;
     }
 }

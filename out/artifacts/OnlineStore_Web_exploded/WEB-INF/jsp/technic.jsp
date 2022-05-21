@@ -32,7 +32,13 @@
     </c:if>
 <c:forEach var="category" items="${requestScope.categories}">
     <img src="${pageContext.request.contextPath}/images/${category.image}" alt="Product image">
-    <a href="${pageContext.request.contextPath}/product?id=${category.id}">${category.name}</a><br>
+    <a href="${pageContext.request.contextPath}/product?id=${category.id}">${category.name}</a>
+    <c:if test="${sessionScope.user.role eq 'ADMIN'}">
+<a href="${pageContext.request.contextPath}/update?id=${category.id}">
+    <button type="button">Изменить</button>
+</a>
+    </c:if>
+    <br>
 </c:forEach>
 </c:when>
     <c:otherwise><span>Error</span></c:otherwise>

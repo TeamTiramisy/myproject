@@ -20,4 +20,5 @@ public class User {
     private String address;
     private Role role;
     private Gender gender;
+    private BlackList blackList;
 }

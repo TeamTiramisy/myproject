@@ -17,4 +17,5 @@ public class UserCreateDto {
     String address;
     String role;
     String gender;
+    String blackList;
 }
