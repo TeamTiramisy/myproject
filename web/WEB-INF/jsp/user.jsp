@@ -13,6 +13,7 @@
 </head>
 <body>
 <%@include file="logout.jsp"%>
+<%@include file="startline.jsp"%>
 ${requestScope.user.firstname}<br>
 ${requestScope.user.lastname}<br>
 ${requestScope.user.email}<br>

@@ -8,6 +8,7 @@
     </style>
 </head>
 <body>
+<%@include file="startline.jsp"%>
 <form action="${pageContext.request.contextPath}/update?id=${requestScope.product.id}" method="post">
     <label  for="name">Имя
         <input id="name" type="text" name="name" value="${requestScope.product.name}">

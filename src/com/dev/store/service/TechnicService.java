@@ -1,5 +1,6 @@
 package com.dev.store.service;
 
+import com.dev.store.DAO.BasketDao;
 import com.dev.store.DAO.TechnicDao;
 import com.dev.store.dto.TechnicCreateDto;
 import com.dev.store.dto.TechnicReadDto;
@@ -18,6 +19,7 @@ import lombok.SneakyThrows;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -36,12 +38,23 @@ public class TechnicService {
     private final AddProductValidator validator = AddProductValidator.getInstance();
     private final UpdateProductValidator updateProductValidator = UpdateProductValidator.getInstance();
     private final ImageService imageService = ImageService.getInstance();
+    private final BasketDao basketDao = BasketDao.getInstance();
 
 
     public List<TechnicReadDto> findAll() {
         return technicDao.findAll().stream()
                 .map(mapper::map)
                 .collect(Collectors.toList());
+    }
+
+    public List<TechnicReadDto> findAllByBasket(List<Long> list){
+
+        List<TechnicReadDto> technics = list.stream()
+                .map(id -> technicDao.findById(id).orElseThrow())
+                .map(mapper::map)
+                .collect(Collectors.toList());
+
+        return technics;
     }
 
     public List<TechnicReadDto> findAllByCategory(String category) {

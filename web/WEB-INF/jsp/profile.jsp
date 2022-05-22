@@ -13,6 +13,7 @@
 </head>
 <body>
 <%@include file="logout.jsp"%>
+<%@include file="startline.jsp"%>
 <form action="${pageContext.request.contextPath}/profile" method="post">
     <label for="firstname">Имя
         <input id="firstname" type="text" name="firstname" value="${sessionScope.user.firstname}">

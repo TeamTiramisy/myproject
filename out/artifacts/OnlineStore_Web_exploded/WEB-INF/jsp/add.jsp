@@ -9,6 +9,7 @@
 </head>
 <body>
 <%@include file="logout.jsp"%>
+<%@include file="startline.jsp"%>
 <form action="${pageContext.request.contextPath}/add" method="post" enctype="multipart/form-data">
     <label  for="name">Имя
         <input id="name" type="text" name="name">

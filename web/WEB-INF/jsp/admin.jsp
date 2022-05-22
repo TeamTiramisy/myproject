@@ -20,6 +20,7 @@
     </style>
 </head>
 <body>
+<%@include file="startline.jsp"%>
 <a href="${pageContext.request.contextPath}/add">
     <button class="btn" type="button">Добавить товар</button>
 </a><br>
