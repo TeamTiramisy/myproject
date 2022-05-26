@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BasketService {
@@ -24,6 +25,7 @@ public class BasketService {
     private final BasketCreateMapper mapper = BasketCreateMapper.getInstance();
     private final TechnicService technicService = TechnicService.getInstance();
     private final BasketReadMapper readMapper = BasketReadMapper.getInstance();
+
 
     public List<TechnicReadDto> findAllBasket(Long id) {
         List<Long> byUsersId = basketDao.findByUsersId(id);
@@ -40,6 +42,10 @@ public class BasketService {
 
     public boolean deleteProduct(String usersId, String technicId) {
         return basketDao.deleteProduct(Long.valueOf(usersId), Long.valueOf(technicId));
+    }
+
+    public boolean delete(Long usersId) {
+        return basketDao.delete(usersId);
     }
 
     public Long create(BasketCreateDto basketCreateDto) {

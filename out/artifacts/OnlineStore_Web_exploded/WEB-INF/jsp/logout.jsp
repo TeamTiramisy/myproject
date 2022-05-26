@@ -24,6 +24,10 @@
     <a href="${pageContext.request.contextPath}/profile">
         <button class="btn" type="button">Мой профель</button>
     </a>
+
+    <a href="${pageContext.request.contextPath}/myOrders">
+        <button class="btn" type="button">Мои заказы</button>
+    </a>
     <c:if test="${empty sessionScope.user}">
         <a href="${pageContext.request.contextPath}/login">
             <button class="btn" type="button">Вход</button>

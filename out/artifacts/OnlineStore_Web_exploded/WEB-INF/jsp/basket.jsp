@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
     <title>Корзина</title>
@@ -18,5 +19,10 @@
     <strong  style="font-size: 25px">&emsp;&emsp;${basket.price}$</strong>
     </p>
 </c:forEach>
+<c:if test="${not empty requestScope.baskets}">
+<a href="${pageContext.request.contextPath}/ordering">
+    <button class="btn" type="button">Оформить заказ</button>
+</a>
+</c:if>
 </body>
 </html>

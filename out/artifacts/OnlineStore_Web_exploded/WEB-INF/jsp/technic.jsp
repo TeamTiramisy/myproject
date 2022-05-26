@@ -49,7 +49,7 @@
         <div>
             <c:forEach var="category" items="${requestScope.categories}">
                 <p>
-                <c:if test="${category.amount > 0}">
+                <c:if test="${category.amount > 0 &&  sessionScope.user.blackList eq 'NO'}">
                     <form style="float: right" action="${pageContext.request.contextPath}/basket?id=${category.id}"
                           method="post">
                         <button class="bt" type="submit">В корзину</button>

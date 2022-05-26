@@ -15,7 +15,7 @@
 <%@include file="logout.jsp"%>
 <%@include file="startline.jsp" %>
 <h1>${requestScope.product.name}</h1>
-<c:if test="${requestScope.product.amount > 0}">
+<c:if test="${requestScope.product.amount > 0 && sessionScope.user.blackList eq 'NO'}">
     <form style="float: right" action="${pageContext.request.contextPath}/basket?id=${requestScope.product.id}" method="post">
         <button class="bt" type="submit">В корзину</button>
     </form>

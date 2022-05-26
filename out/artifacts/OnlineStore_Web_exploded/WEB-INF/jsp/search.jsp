@@ -19,6 +19,7 @@
     </style>
 </head>
 <body>
+<%@include file="logout.jsp"%>
 <%@include file="startline.jsp"%>
 <c:choose>
     <c:when test="${not empty param.name && not empty requestScope.technics}">

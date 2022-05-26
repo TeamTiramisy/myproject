@@ -47,11 +47,11 @@ public class BasketServlet extends HttpServlet {
                         .technic_id(technic_id)
                         .build();
 
-                basketService.create(basketCreateDto);
+            basketService.create(basketCreateDto);
 
-                var prevPage = req.getHeader("referer");
-                var page = prevPage != null ? prevPage : "/";
-                resp.sendRedirect(page);
+            var prevPage = req.getHeader("referer");
+            var page = prevPage != null ? prevPage : "/";
+            resp.sendRedirect(page);
         } else {
             var prevPage = req.getHeader("referer");
             var page = prevPage != null ? prevPage : "/";

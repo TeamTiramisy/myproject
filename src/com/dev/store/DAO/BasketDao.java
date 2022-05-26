@@ -38,6 +38,10 @@ public class BasketDao implements Dao<Long, Basket> {
             DELETE FROM basket WHERE users_id = ? AND technic_id = ?
             """;
 
+    private static final String DELETE = """
+            DELETE FROM basket WHERE users_id = ?
+            """;
+
     @SneakyThrows
     public Optional<Basket> findByUsersIdAndTechnicId(Long userId, Long technicId){
         try (Connection connection = ConnectionManager.get();
@@ -88,8 +92,14 @@ public class BasketDao implements Dao<Long, Basket> {
     }
 
     @Override
+    @SneakyThrows
     public boolean delete(Long id) {
-        return false;
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
+            preparedStatement.setObject(1, id);
+
+            return preparedStatement.executeUpdate() > 0;
+        }
     }
 
     @SneakyThrows
