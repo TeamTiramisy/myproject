@@ -8,6 +8,7 @@ import com.dev.store.entity.Order;
 import com.dev.store.entity.Status;
 import com.dev.store.mapper.OrderCreateMapper;
 import com.dev.store.mapper.OrderReadMapper;
+import com.dev.store.mapper.TechnicReadMapper;
 import com.dev.store.util.LocalDateFormatter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class OrderService {
     private final OrderDao orderDao = OrderDao.getInstance();
     private final OrderCreateMapper orderCreateMapper = OrderCreateMapper.getInstance();
     private final OrderReadMapper mapper = OrderReadMapper.getInstance();
+    private final TechnicReadMapper technicMapper = TechnicReadMapper.getInstance();
 
     public List<OrderReadDto> findAll(){
         return orderDao.findAll().stream()
@@ -104,24 +106,12 @@ public class OrderService {
         return INSTANCE;
     }
 
-    private TechnicReadDto copy(TechnicReadDto technicReadDto, String amount){
-        return TechnicReadDto.builder()
-                .id(technicReadDto.getId())
-                .name(technicReadDto.getName())
-                .category(technicReadDto.getCategory())
-                .description(technicReadDto.getDescription())
-                .price(technicReadDto.getPrice())
-                .amount(Integer.valueOf(amount))
-                .image(technicReadDto.getImage())
-                .build();
-    }
-
     private List<TechnicReadDto> getOrder(Long id, String[] amounts){
         List<TechnicReadDto> baskets = findAllBasket(id);
         List<TechnicReadDto> orders = new ArrayList<>();
 
         for (int i = 0; i < baskets.size(); i++) {
-            TechnicReadDto order = copy(baskets.get(i), amounts[i]);
+            TechnicReadDto order = technicMapper.copy(baskets.get(i), amounts[i]);
             orders.add(order);
         }
         return orders;
