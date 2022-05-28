@@ -3,7 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Поиск</title>
     <style>
         body {
             font-size: 20px
@@ -36,6 +36,11 @@
                 <c:if test="${sessionScope.user.role eq 'ADMIN'}">
                     <a class="f" href="${pageContext.request.contextPath}/update?id=${technic.id}">
                         <button class="bt" type="button">Изменить</button>
+                    </a>
+                </c:if>
+                <c:if test="${sessionScope.user.role eq 'ADMIN'}">
+                    <a class="f" href="${pageContext.request.contextPath}/ordersProduct?name=${technic.name}">
+                        <button class="bt" type="button">Заказы с товаром</button>
                     </a>
                 </c:if>
                 <img src="${pageContext.request.contextPath}/images/${technic.image}" alt="Product image">

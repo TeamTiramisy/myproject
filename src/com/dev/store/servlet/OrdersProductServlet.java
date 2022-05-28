@@ -1,6 +1,6 @@
 package com.dev.store.servlet;
 
-import com.dev.store.dto.UserReadDto;
+import com.dev.store.dto.OrderCreateDto;
 import com.dev.store.service.OrderService;
 import com.dev.store.util.JspHelper;
 import jakarta.servlet.ServletException;
@@ -11,19 +11,18 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/myOrders")
-public class MyOrdersServlet extends HttpServlet {
+@WebServlet("/ordersProduct")
+public class OrdersProductServlet extends HttpServlet {
 
     private final OrderService orderService = OrderService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserReadDto userReadDto = (UserReadDto) req.getSession().getAttribute("user");
-        Long usersId = userReadDto.getId();
+        String name = req.getParameter("name");
 
-        req.setAttribute("orders", orderService.findAllByUserId(usersId));
+        req.setAttribute("orders", orderService.findAllByProduct(name));
 
-        req.getRequestDispatcher(JspHelper.getPath("myOrders"))
+        req.getRequestDispatcher(JspHelper.getPath("ordersProduct"))
                 .forward(req, resp);
     }
 
@@ -31,8 +30,12 @@ public class MyOrdersServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long id = Long.valueOf(req.getParameter("id"));
 
-        if(orderService.delete(id)){
-            resp.sendRedirect("/myOrders");
-        }
+        OrderCreateDto createDto = OrderCreateDto.builder()
+                .status("REJECTED")
+                .build();
+
+        orderService.update(id, createDto);
+
+        resp.sendRedirect("/orders/processing");
     }
 }

@@ -13,14 +13,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet("/profile")
-public class ProfileServlet extends HttpServlet {
+@WebServlet("/account")
+public class AccountServlet extends HttpServlet {
 
     private final UserService userService = UserService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher(JspHelper.getPath("profile"))
+        req.getRequestDispatcher(JspHelper.getPath("account"))
                 .forward(req, resp);
     }
 
@@ -45,7 +45,7 @@ public class ProfileServlet extends HttpServlet {
             try {
                 userService.update(id, userCreateDto);
                 req.getSession().setAttribute("user", userService.findById(id).orElseThrow());
-                resp.sendRedirect("/profile");
+                resp.sendRedirect("/account");
             } catch (ValidationException exception) {
                 req.setAttribute("errors", exception.getErrors());
                 doGet(req, resp);

@@ -8,6 +8,7 @@ import com.dev.store.entity.Order;
 import com.dev.store.entity.Status;
 import com.dev.store.mapper.OrderCreateMapper;
 import com.dev.store.mapper.OrderReadMapper;
+import com.dev.store.util.LocalDateFormatter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,24 @@ public class OrderService {
     private final OrderCreateMapper orderCreateMapper = OrderCreateMapper.getInstance();
     private final OrderReadMapper mapper = OrderReadMapper.getInstance();
 
+    public List<OrderReadDto> findAll(){
+        return orderDao.findAll().stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
+    }
+
+    public List<OrderReadDto> findAllByProduct(String name){
+        return orderDao.findAllByProduct(name).stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
+    }
+
+    public List<OrderReadDto> findAllByStatus(String status){
+        return orderDao.findAllByStatus(status).stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
+    }
+
     public List<TechnicReadDto> findAllBasket(Long id) {
         return basketService.findAllBasket(id);
     }
@@ -36,23 +55,22 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public Long save(Long id, String[] amounts){
-        List<TechnicReadDto> basket = findAllBasket(id);
-        List<TechnicReadDto> orders = new ArrayList<>();
+    public void update(Long id, OrderCreateDto orderCreateDto){
+        Order order = orderDao.findById(id).orElseThrow();
 
-        for (int i = 0; i < basket.size(); i++) {
-            TechnicReadDto order = copy(basket.get(i), amounts[i]);
-            orders.add(order);
+        order.setStatus(Status.valueOf(orderCreateDto.getStatus()));
+
+        if (orderCreateDto.getDateClose() != null){
+            order.setDateClose((LocalDateFormatter.format(orderCreateDto.getDateClose())));
         }
 
-        Integer total = orders.stream()
-                .map(order -> (order.getPrice() * order.getAmount()))
-                .reduce(Integer::sum).orElseThrow();
+        orderDao.update(order);
+    }
 
-        List<String> products = orders.stream()
-                .map(order -> (order.getName() + " - " + order.getAmount())).toList();
-
-        String product = String.join(" , ", products);
+    public Long save(Long id, String[] amounts){
+        List<TechnicReadDto> orders = getOrder(id, amounts);
+        Integer total = getTotalOrder(orders);
+        String product = getProductOrder(orders);
 
         OrderCreateDto orderCreateDto = OrderCreateDto.builder()
                 .product(product)
@@ -63,19 +81,23 @@ public class OrderService {
                 .total(total)
                 .build();
 
-        Order map = orderCreateMapper.map(orderCreateDto);
+        Order order = orderCreateMapper.map(orderCreateDto);
 
-        orderDao.save(map);
+        orderDao.save(order);
 
-        if (map.getId() > 0){
+        if (order.getId() > 0){
             basketService.delete(id);
         }
 
-        return map.getId();
+        return order.getId();
     }
 
     public boolean delete(Long id){
         return orderDao.delete(id);
+    }
+
+    public boolean deleteDateClose(LocalDate date) {
+       return orderDao.deleteDateClose(date);
     }
 
     public static OrderService getInstance(){
@@ -92,5 +114,31 @@ public class OrderService {
                 .amount(Integer.valueOf(amount))
                 .image(technicReadDto.getImage())
                 .build();
+    }
+
+    private List<TechnicReadDto> getOrder(Long id, String[] amounts){
+        List<TechnicReadDto> baskets = findAllBasket(id);
+        List<TechnicReadDto> orders = new ArrayList<>();
+
+        for (int i = 0; i < baskets.size(); i++) {
+            TechnicReadDto order = copy(baskets.get(i), amounts[i]);
+            orders.add(order);
+        }
+        return orders;
+    }
+
+    private Integer getTotalOrder(List<TechnicReadDto> orders){
+        return orders.stream()
+                .map(order -> (order.getPrice() * order.getAmount()))
+                .reduce(Integer::sum).orElseThrow();
+    }
+
+    private String getProductOrder(List<TechnicReadDto> orders){
+        List<String> products = orders.stream()
+                .map(order -> (order.getName() + " - " + order.getAmount())).toList();
+
+        String product = String.join(" , ", products);
+
+        return product;
     }
 }

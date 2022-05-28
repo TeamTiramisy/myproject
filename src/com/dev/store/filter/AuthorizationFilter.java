@@ -14,7 +14,8 @@ public class AuthorizationFilter implements Filter {
 
     private static final Set<String> PUBLIC_PATH = Set.of("/login", "/registration");
 
-    private static final Set<String> ADMIN_PATH = Set.of("/admin", "/add", "/users" , "/user", "/update");
+    private static final Set<String> ADMIN_PATH = Set.of("/admin", "/add", "/users" , "/user",
+            "/update", "/orders", "/ordersProduct", "/orders/processing", "/orders/completed");
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -38,7 +39,7 @@ public class AuthorizationFilter implements Filter {
     }
 
     private boolean isAdminPath(String uri) {
-        return ADMIN_PATH.stream().noneMatch(uri::startsWith);
+        return ADMIN_PATH.stream().noneMatch(uri::endsWith);
     }
 
     private boolean isUserLoginIn(ServletRequest servletRequest) {

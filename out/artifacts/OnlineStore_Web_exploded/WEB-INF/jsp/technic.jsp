@@ -60,6 +60,11 @@
                         <button class="bt" type="button">Изменить</button>
                     </a>
                 </c:if>
+                <c:if test="${sessionScope.user.role eq 'ADMIN'}">
+                    <a class="f" href="${pageContext.request.contextPath}/ordersProduct?name=${category.name}">
+                        <button class="bt" type="button">Заказы с товаром</button>
+                    </a>
+                </c:if>
                 <img src="${pageContext.request.contextPath}/images/${category.image}" alt="Product image">
                 <a href="${pageContext.request.contextPath}/product?id=${category.id}">${category.name}</a>
                 <strong>&emsp;&emsp;${category.price}$</strong>

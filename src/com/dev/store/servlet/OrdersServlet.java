@@ -1,8 +1,10 @@
 package com.dev.store.servlet;
 
-import com.dev.store.dto.UserReadDto;
+import com.dev.store.dto.OrderCreateDto;
 import com.dev.store.service.OrderService;
 import com.dev.store.util.JspHelper;
+import com.dev.store.util.LocalDateFormatter;
+import com.sun.net.httpserver.HttpsServer;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,29 +12,26 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
-@WebServlet("/myOrders")
-public class MyOrdersServlet extends HttpServlet {
+@WebServlet("/orders")
+public class OrdersServlet extends HttpServlet {
 
     private final OrderService orderService = OrderService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UserReadDto userReadDto = (UserReadDto) req.getSession().getAttribute("user");
-        Long usersId = userReadDto.getId();
+        req.setAttribute("orders", orderService.findAll());
 
-        req.setAttribute("orders", orderService.findAllByUserId(usersId));
-
-        req.getRequestDispatcher(JspHelper.getPath("myOrders"))
+        req.getRequestDispatcher(JspHelper.getPath("orders"))
                 .forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long id = Long.valueOf(req.getParameter("id"));
+        LocalDate date = LocalDateFormatter.format(req.getParameter("date"));
 
-        if(orderService.delete(id)){
-            resp.sendRedirect("/myOrders");
-        }
+        orderService.deleteDateClose(date);
+        resp.sendRedirect("/orders");
     }
 }

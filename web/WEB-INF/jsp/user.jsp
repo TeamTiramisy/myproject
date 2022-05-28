@@ -10,23 +10,45 @@
 <html>
 <head>
     <title>Пользователь</title>
+    <style>
+        label {
+            font-size: 25px;
+        }
+    </style>
 </head>
 <body>
-<%@include file="logout.jsp"%>
-<%@include file="startline.jsp"%>
-${requestScope.user.firstname}<br>
-${requestScope.user.lastname}<br>
-${requestScope.user.email}<br>
-${requestScope.user.tel}<br>
-${requestScope.user.address}<br>
-${requestScope.user.role}<br>
-<c:if test="${requestScope.user.gender eq 'MALE'}">
-    Муж<br>
-</c:if>
-<c:if test="${requestScope.user.gender eq 'FEMALE'}">
-    Жен<br>
-</c:if>
-${requestScope.user.blackList}<br>
+<%@include file="logout.jsp" %>
+<%@include file="startline.jsp" %>
+<h1>Пользователь:</h1>
+<label><strong>Имя: </strong>
+    ${requestScope.user.firstname}<br>
+</label>
+<label><strong>Фамилия: </strong>
+    ${requestScope.user.lastname}<br>
+</label>
+<label><strong>Эл почта: </strong>
+    ${requestScope.user.email}<br>
+</label>
+<label><strong>Телефон: </strong>
+    ${requestScope.user.tel}<br>
+</label>
+<label><strong>Адрес: </strong>
+    ${requestScope.user.address}<br>
+</label>
+<label><strong>Роль: </strong>
+    ${requestScope.user.role}<br>
+</label>
+<label><strong>Пол: </strong>
+    <c:if test="${requestScope.user.gender eq 'MALE'}">
+        Муж<br>
+    </c:if>
+    <c:if test="${requestScope.user.gender eq 'FEMALE'}">
+        Жен<br>
+    </c:if>
+</label>
+<label><strong>Черный список: </strong>
+    ${requestScope.user.blackList}<br>
+</label>
 <form action="${pageContext.request.contextPath}/user?id=${requestScope.user.id}" method="post">
     <select name="role" id="role">
         <c:forEach var="role" items="${requestScope.roles}">
@@ -40,5 +62,8 @@ ${requestScope.user.blackList}<br>
     </select><br>
     <button type="submit">Изменить</button>
 </form>
+<a href="${pageContext.request.contextPath}/orders/user?id=${requestScope.user.id}">
+    <button type="button">Заказы пользователя</button>
+</a>
 </body>
 </html>

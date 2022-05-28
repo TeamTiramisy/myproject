@@ -8,7 +8,9 @@
     </style>
 </head>
 <body>
+<%@include file="logout.jsp" %>
 <%@include file="startline.jsp"%>
+<h1>Изменить товар:</h1>
 <form action="${pageContext.request.contextPath}/update?id=${requestScope.product.id}" method="post">
     <label  for="name">Имя
         <input id="name" type="text" name="name" value="${requestScope.product.name}">

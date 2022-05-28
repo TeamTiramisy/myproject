@@ -8,24 +8,31 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Админ</title>
     <style>
-        .btn{
-            background: dodgerblue;
-            color: white;
-            padding: 5px 16px;
-            border: 0px transparent;
-            margin-bottom: 1em;
+        p {
+            font-size: 25px;
         }
     </style>
 </head>
 <body>
-<%@include file="startline.jsp"%>
+<%@include file="logout.jsp" %>
+<%@include file="startline.jsp" %>
+<h1>Страничка админа:</h1>
 <a href="${pageContext.request.contextPath}/add">
-    <button class="btn" type="button">Добавить товар</button>
-</a><br>
+    <p>Добавить товар</p>
+</a>
 <a href="${pageContext.request.contextPath}/users">
-    <button class="btn" type="button">Все пользователи</button>
+    <p>Все пользователи</p>
+</a>
+<a href="${pageContext.request.contextPath}/orders">
+    <p>Все заказы</p>
+</a>
+<a href="${pageContext.request.contextPath}/orders/processing">
+    <p>Заказы на обработку</p>
+</a>
+<a href="${pageContext.request.contextPath}/orders/completed">
+    <p>Заказы на закрытие</p>
 </a>
 
 </body>

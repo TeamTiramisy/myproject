@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Личный профель</title>
+    <title>Аккаунт</title>
     <style>
         body {line-height: 1.5}
 
@@ -14,7 +14,8 @@
 <body>
 <%@include file="logout.jsp"%>
 <%@include file="startline.jsp"%>
-<form action="${pageContext.request.contextPath}/profile" method="post">
+<h1>Личный аккаунт:</h1>
+<form action="${pageContext.request.contextPath}/account" method="post">
     <label for="firstname">Имя
         <input id="firstname" type="text" name="firstname" value="${sessionScope.user.firstname}">
     </label><br>

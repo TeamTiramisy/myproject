@@ -21,8 +21,8 @@
             <button class="btn" type="button">Кабинет админа</button>
         </a>
     </c:if>
-    <a href="${pageContext.request.contextPath}/profile">
-        <button class="btn" type="button">Мой профель</button>
+    <a href="${pageContext.request.contextPath}/account">
+        <button class="btn" type="button">Аккаунт</button>
     </a>
 
     <a href="${pageContext.request.contextPath}/myOrders">

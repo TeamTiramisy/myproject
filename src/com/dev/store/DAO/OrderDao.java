@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,9 +21,13 @@ import java.util.Optional;
 import static java.sql.Statement.RETURN_GENERATED_KEYS;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class OrderDao implements Dao<Long, Order>{
+public class OrderDao implements Dao<Long, Order> {
 
     private static final OrderDao INSTANCE = new OrderDao();
+
+    private static final String FIND_ALL = """
+            SELECT * FROM orders
+            """;
 
     private static final String SAVE = """
             INSERT INTO orders (product, user_id, date_registration, date_close, status, total)
@@ -37,9 +42,79 @@ public class OrderDao implements Dao<Long, Order>{
             DELETE FROM orders WHERE id = ?
             """;
 
+    public static final String FIND_ALL_BY_PRODUCT = """
+            SELECT * FROM orders WHERE product like ('%' || ? || '%')
+            """;
+
+    public static final String FIND_ALL_BY_STATUS = """
+            SELECT * FROM orders WHERE status = ?
+            """;
+
+    private static final String UPDATE = """
+            UPDATE orders
+            SET product = ?,
+            user_id = ?,
+            date_registration = ?,
+            date_close = ?,
+            status = ?,
+            total = ?
+            WHERE id = ?
+            """;
+
+    private static final String FIND_BY_ID = """
+            SELECT * FROM orders WHERE id = ?
+            """;
+
+    private static final String DELETE_DATE_CLOSE = """
+            DELETE FROM orders WHERE (status = 'COMPLETED' OR status = 'REJECTED') AND date_close < ?
+            """;
+
+    @SneakyThrows
     @Override
     public List<Order> findAll() {
-        return null;
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Order> orders = new ArrayList<>();
+
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        }
+    }
+
+    @SneakyThrows
+    public List<Order> findAllByProduct(String name) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_BY_PRODUCT)) {
+            preparedStatement.setObject(1, name);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Order> orders = new ArrayList<>();
+
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        }
+    }
+
+    @SneakyThrows
+    public List<Order> findAllByStatus(String status) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_BY_STATUS)) {
+            preparedStatement.setObject(1, status);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Order> orders = new ArrayList<>();
+
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        }
     }
 
     @SneakyThrows
@@ -51,16 +126,28 @@ public class OrderDao implements Dao<Long, Order>{
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Order> orders = new ArrayList<>();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 orders.add(buildOrder(resultSet));
             }
             return orders;
         }
     }
 
+    @SneakyThrows
     @Override
     public Optional<Order> findById(Long id) {
-        return Optional.empty();
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_ID)) {
+            preparedStatement.setObject(1, id);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            Order order = null;
+
+            if (resultSet.next()){
+                order = buildOrder(resultSet);
+            }
+            return Optional.ofNullable(order);
+        }
     }
 
     @Override
@@ -74,9 +161,31 @@ public class OrderDao implements Dao<Long, Order>{
         }
     }
 
+    @SneakyThrows
+    public boolean deleteDateClose(LocalDate date) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(DELETE_DATE_CLOSE)) {
+            preparedStatement.setObject(1, date);
+
+            return preparedStatement.executeUpdate() > 0;
+        }
+    }
+
+    @SneakyThrows
     @Override
     public void update(Order entity) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
+            preparedStatement.setObject(1, entity.getProduct());
+            preparedStatement.setObject(2, entity.getUserId());
+            preparedStatement.setObject(3, entity.getDateRegistration());
+            preparedStatement.setObject(4, entity.getDateClose());
+            preparedStatement.setObject(5, entity.getStatus().name());
+            preparedStatement.setObject(6, entity.getTotal());
+            preparedStatement.setObject(7, entity.getId());
 
+            preparedStatement.executeUpdate();
+        }
     }
 
     @SneakyThrows
@@ -84,12 +193,12 @@ public class OrderDao implements Dao<Long, Order>{
     public Order save(Order entity) {
         try (Connection connection = ConnectionManager.get();
              PreparedStatement preparedStatement = connection.prepareStatement(SAVE, RETURN_GENERATED_KEYS)) {
-           preparedStatement.setObject(1, entity.getProduct());
-           preparedStatement.setObject(2, entity.getUserId());
-           preparedStatement.setObject(3, entity.getDateRegistration());
-           preparedStatement.setObject(4, entity.getDateClose());
-           preparedStatement.setObject(5, entity.getStatus().name());
-           preparedStatement.setObject(6, entity.getTotal());
+            preparedStatement.setObject(1, entity.getProduct());
+            preparedStatement.setObject(2, entity.getUserId());
+            preparedStatement.setObject(3, entity.getDateRegistration());
+            preparedStatement.setObject(4, entity.getDateClose());
+            preparedStatement.setObject(5, entity.getStatus().name());
+            preparedStatement.setObject(6, entity.getTotal());
 
             preparedStatement.executeUpdate();
 
@@ -101,7 +210,7 @@ public class OrderDao implements Dao<Long, Order>{
         }
     }
 
-    public static OrderDao getInstance(){
+    public static OrderDao getInstance() {
         return INSTANCE;
     }
 

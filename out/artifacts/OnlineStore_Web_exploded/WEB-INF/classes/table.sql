@@ -31,10 +31,10 @@ CREATE TABLE IF NOT EXISTS technic
 CREATE TABLE IF NOT EXISTS orders
 (
     id                BIGSERIAL PRIMARY KEY,
-    product           VARCHAR(512)                 NOT NULL,
+    product           VARCHAR(1024)                 NOT NULL,
     user_id           BIGINT REFERENCES users (id) NOT NULL,
-    date_registration DATE                    NOT NULL,
-    date_close        DATE,
+    date_registration DATE                         NOT NULL,
+    date_close        DATE                         NOT NULL,
     status            VARCHAR(32)                  NOT NULL,
     total             INT                          NOT NULL
 );

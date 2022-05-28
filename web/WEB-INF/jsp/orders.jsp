@@ -2,12 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Мои заказы</title>
+    <title>Все заказы</title>
     <style>
-        .but {
-            border: 0px;
-        }
-
         .tab {
             border-collapse: collapse;
         }
@@ -16,7 +12,12 @@
 <body>
 <%@include file="logout.jsp" %>
 <%@include file="startline.jsp" %>
-<h1>Мои заказы:</h1>
+<h1>Все заказы:</h1>
+<form action="${pageContext.request.contextPath}/orders" method="post">
+    <label for="date"><strong>Удалить выполненые и откланеные заказы раньше: </strong></label>
+    <input id="date" type="date" name="date">
+    <button type="submit">Удалить</button>
+</form>
 <table border="1px" class="tab">
     <tr>
         <th width="50">Номер</th>
@@ -44,11 +45,6 @@
             </td>
             <td width="60">${order.total}$</td>
             <c:if test="${order.status eq 'PROCESSING'}">
-                <td class="but">
-                    <form action="${pageContext.request.contextPath}/myOrders?id=${order.id}" method="post">
-                        <button type="submit">Отменить</button>
-                    </form>
-                </td>
             </c:if>
         </tr>
     </c:forEach>

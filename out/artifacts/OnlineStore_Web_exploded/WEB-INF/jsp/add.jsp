@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Добавление товара</title>
+    <title>Добавить товар</title>
     <style>
         body {line-height: 1.5}
     </style>
@@ -10,6 +10,7 @@
 <body>
 <%@include file="logout.jsp"%>
 <%@include file="startline.jsp"%>
+<h1>Добавить товар:</h1>
 <form action="${pageContext.request.contextPath}/add" method="post" enctype="multipart/form-data">
     <label  for="name">Имя
         <input id="name" type="text" name="name">

@@ -21,7 +21,7 @@
 </c:forEach>
 <c:if test="${not empty requestScope.baskets}">
 <a href="${pageContext.request.contextPath}/ordering">
-    <button class="btn" type="button">Оформить заказ</button>
+    <button type="button">Оформить заказ</button>
 </a>
 </c:if>
 </body>
