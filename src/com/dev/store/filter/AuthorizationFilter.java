@@ -12,7 +12,7 @@ import java.util.Set;
 @WebFilter("/*")
 public class AuthorizationFilter implements Filter {
 
-    private static final Set<String> PUBLIC_PATH = Set.of("/login", "/registration");
+    private static final Set<String> PUBLIC_PATH = Set.of("/login", "/registration", "/locale");
 
     private static final Set<String> ADMIN_PATH = Set.of("/admin", "/add", "/users" , "/user",
             "/update", "/orders", "/ordersProduct", "/orders/processing", "/orders/completed");

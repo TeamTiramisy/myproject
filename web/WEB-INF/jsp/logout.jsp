@@ -16,17 +16,18 @@
 </style>
 
 <div style="text-align: right">
+    <%@include file="locale.jsp"%>
     <c:if test="${sessionScope.user.role eq 'ADMIN'}">
         <a href="${pageContext.request.contextPath}/admin">
-            <button class="btn" type="button">Кабинет админа</button>
+            <button class="btn" type="button"><fmt:message key="page.logout.admin"/></button>
         </a>
     </c:if>
     <a href="${pageContext.request.contextPath}/account">
-        <button class="btn" type="button">Аккаунт</button>
+        <button class="btn" type="button"><fmt:message key="page.logout.account"/></button>
     </a>
 
     <a href="${pageContext.request.contextPath}/myOrders">
-        <button class="btn" type="button">Мои заказы</button>
+        <button class="btn" type="button"><fmt:message key="page.logout.orders"/></button>
     </a>
     <c:if test="${empty sessionScope.user}">
         <a href="${pageContext.request.contextPath}/login">
@@ -35,12 +36,12 @@
     </c:if>
     <c:if test="${not empty sessionScope.user}">
         <a href="${pageContext.request.contextPath}/basket">
-            <button class="btn" type="button">Корзина</button>
+            <button class="btn" type="button"><fmt:message key="page.logout.basket"/></button>
         </a>
     </c:if>
     <c:if test="${not empty sessionScope.user}">
         <form action="/logout" method="post">
-            <button class="btn" type="submit">Выйти</button>
+            <button class="btn" type="submit"><fmt:message key="page.logout.exit"/></button>
         </form>
     </c:if>
 </div>

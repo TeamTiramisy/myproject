@@ -3,7 +3,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <html>
 <head>
-    <title>Пользователи</title>
+    <title>OnlineStore</title>
     <style>
         p {
             font-size: 25px;
@@ -13,7 +13,7 @@
 <body>
 <%@include file="logout.jsp" %>
 <%@include file="startline.jsp" %>
-<h1>Все пользователи:</h1>
+<h1><fmt:message key="page.users.h"/>:</h1>
 <ul>
     <c:forEach var="user" items="${requestScope.users}">
         <p>

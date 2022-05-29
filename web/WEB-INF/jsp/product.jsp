@@ -17,13 +17,13 @@
 <h1>${requestScope.product.name}</h1>
 <c:if test="${requestScope.product.amount > 0 && sessionScope.user.blackList eq 'NO'}">
     <form style="float: right" action="${pageContext.request.contextPath}/basket?id=${requestScope.product.id}" method="post">
-        <button class="bt" type="submit">В корзину</button>
+        <button class="bt" type="submit"><fmt:message key="page.product.button"/></button>
     </form>
 </c:if>
 <img src="${pageContext.request.contextPath}/images/${requestScope.product.image}" alt="Product image">
 <strong class="s">${requestScope.product.price}$</strong>
 <c:if test="${requestScope.product.amount eq 0}">
-    <span class="s">Нет в наличии</span>
+    <span class="s"><fmt:message key="page.product.text"/></span>
 </c:if>
 <p>${requestScope.product.description}</p>
 </body>

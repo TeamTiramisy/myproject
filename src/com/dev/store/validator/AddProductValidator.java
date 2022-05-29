@@ -14,19 +14,19 @@ public class AddProductValidator implements Validator<TechnicCreateDto>{
     public ValidationResult isValid(TechnicCreateDto object) {
         ValidationResult validationResult = new ValidationResult();
         if (object.getName().isEmpty()){
-            validationResult.add(Error.of("invalid.name", "Укажите название товара"));
+            validationResult.add(Error.of("invalid.name", "Укажите название товара", "Specify the name of the product"));
         }
         if (object.getCategory().isEmpty()){
-            validationResult.add(Error.of("invalid.category", "Укажите категорию товара"));
+            validationResult.add(Error.of("invalid.category", "Укажите категорию товара", "Specify the product category"));
         }
         if (object.getDescription().isEmpty()){
-            validationResult.add(Error.of("invalid.description", "Добавте описание товара"));
+            validationResult.add(Error.of("invalid.description", "Добавте описание товара", "Add product description"));
         }
         if (object.getPrice().isEmpty()){
-            validationResult.add(Error.of("invalid.price", "Укажите цену товара"));
+            validationResult.add(Error.of("invalid.price", "Укажите цену товара", "Specify the price of the item"));
         }
         if (object.getAmount().isEmpty()){
-            validationResult.add(Error.of("invalid.amount", "Укажите количество товара"));
+            validationResult.add(Error.of("invalid.amount", "Укажите количество товара", "Specify the quantity of product"));
         }
 
         return validationResult;

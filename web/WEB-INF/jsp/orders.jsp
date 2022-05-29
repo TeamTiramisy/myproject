@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Все заказы</title>
+    <title>OnlineStore</title>
     <style>
         .tab {
             border-collapse: collapse;
@@ -12,20 +12,20 @@
 <body>
 <%@include file="logout.jsp" %>
 <%@include file="startline.jsp" %>
-<h1>Все заказы:</h1>
+<h1><fmt:message key="page.admin.orders"/>:</h1>
 <form action="${pageContext.request.contextPath}/orders" method="post">
-    <label for="date"><strong>Удалить выполненые и откланеные заказы раньше: </strong></label>
+    <label for="date"><strong><fmt:message key="page.orders.delete.date"/>: </strong></label>
     <input id="date" type="date" name="date">
-    <button type="submit">Удалить</button>
+    <button type="submit"><fmt:message key="page.myOrders.delete"/></button>
 </form>
 <table border="1px" class="tab">
     <tr>
-        <th width="50">Номер</th>
-        <th width="600">Товары и количество в заказе</th>
-        <th width="80">Дата оформления заказа</th>
-        <th width="80">Дата закрытия заказа</th>
-        <th width="120">Статус</th>
-        <th width="60">Цена</th>
+        <th width="50"><fmt:message key="page.completed.number"/> </th>
+        <th width="600"><fmt:message key="page.completed.product"/></th>
+        <th width="80"><fmt:message key="page.completed.date"/></th>
+        <th width="80"><fmt:message key="page.completed.data"/></th>
+        <th width="120"><fmt:message key="page.completed.status"/></th>
+        <th width="60"><fmt:message key="page.completed.price"/></th>
     </tr>
     <c:forEach var="order" items="${requestScope.orders}">
         <tr>
@@ -38,14 +38,12 @@
                 </c:if>
             </td>
             <td width="120">
-                <c:if test="${order.status eq 'PROCESSING'}">На обработке</c:if>
-                <c:if test="${order.status eq 'ACCEPTED'}">Принят</c:if>
-                <c:if test="${order.status eq 'REJECTED'}">Отклонен</c:if>
-                <c:if test="${order.status eq 'COMPLETED'}">Выполнен</c:if>
+                <c:if test="${order.status eq 'PROCESSING'}"><fmt:message key="page.myOrders.processing"/></c:if>
+                <c:if test="${order.status eq 'ACCEPTED'}"><fmt:message key="page.completed.accepted"/></c:if>
+                <c:if test="${order.status eq 'REJECTED'}"><fmt:message key="page.myOrders.rejected"/></c:if>
+                <c:if test="${order.status eq 'COMPLETED'}"><fmt:message key="page.myOrders.completed"/></c:if>
             </td>
             <td width="60">${order.total}$</td>
-            <c:if test="${order.status eq 'PROCESSING'}">
-            </c:if>
         </tr>
     </c:forEach>
 </table>

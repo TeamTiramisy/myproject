@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Админ</title>
+    <title>OnlineStore</title>
     <style>
         p {
             font-size: 25px;
@@ -18,21 +18,21 @@
 <body>
 <%@include file="logout.jsp" %>
 <%@include file="startline.jsp" %>
-<h1>Страничка админа:</h1>
+<h1><fmt:message key="page.admin.h"/>:</h1>
 <a href="${pageContext.request.contextPath}/add">
-    <p>Добавить товар</p>
+    <p><fmt:message key="page.add.h"/> </p>
 </a>
 <a href="${pageContext.request.contextPath}/users">
-    <p>Все пользователи</p>
+    <p><fmt:message key="page.admin.users"/></p>
 </a>
 <a href="${pageContext.request.contextPath}/orders">
-    <p>Все заказы</p>
+    <p><fmt:message key="page.admin.orders"/></p>
 </a>
 <a href="${pageContext.request.contextPath}/orders/processing">
-    <p>Заказы на обработку</p>
+    <p><fmt:message key="page.admin.orders.processing"/></p>
 </a>
 <a href="${pageContext.request.contextPath}/orders/completed">
-    <p>Заказы на закрытие</p>
+    <p><fmt:message key="page.admin.orders.completed"/></p>
 </a>
 
 </body>
