@@ -50,8 +50,16 @@
         </div>
     </c:if>
 </form>
+<c:if test="${empty requestScope.orders}">
 <form action="${pageContext.request.contextPath}/delete?id=${sessionScope.user.id}" method="post">
     <button type="submit"><fmt:message key="page.account.delete.button"/></button>
 </form>
+</c:if>
+<c:if test="${not empty requestScope.orders}">
+    <form action="${pageContext.request.contextPath}/delete?id=${sessionScope.user.id}" method="post">
+        <button disabled="disabled" type="submit"><fmt:message key="page.account.delete.button"/></button><br>
+        <span style="color: red"><fmt:message key="page.account.delete"/></span>
+    </form>
+</c:if>
 </body>
 </html>

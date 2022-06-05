@@ -50,6 +50,10 @@ public class OrderDao implements Dao<Long, Order> {
             SELECT * FROM orders WHERE status = ?
             """;
 
+    public static final String FIND_ALL_BY_STATUS_BY_USER_ID = """
+            SELECT * FROM orders WHERE status = ? AND user_id =?
+            """;
+
     private static final String UPDATE = """
             UPDATE orders
             SET product = ?,
@@ -106,6 +110,23 @@ public class OrderDao implements Dao<Long, Order> {
         try (Connection connection = ConnectionManager.get();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_BY_STATUS)) {
             preparedStatement.setObject(1, status);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Order> orders = new ArrayList<>();
+
+            while (resultSet.next()) {
+                orders.add(buildOrder(resultSet));
+            }
+            return orders;
+        }
+    }
+
+    @SneakyThrows
+    public List<Order> findAllByStatusByUserId(String status, Long userId) {
+        try (Connection connection = ConnectionManager.get();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_BY_STATUS_BY_USER_ID)) {
+            preparedStatement.setObject(1, status);
+            preparedStatement.setObject(2, userId);
 
             ResultSet resultSet = preparedStatement.executeQuery();
             List<Order> orders = new ArrayList<>();

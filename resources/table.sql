@@ -14,9 +14,6 @@ CREATE TABLE IF NOT EXISTS users
 
 DROP TABLE orders;
 
-ALTER TABLE technic
-    ADD COLUMN image VARCHAR(124);
-
 CREATE TABLE IF NOT EXISTS technic
 (
     id          BIGSERIAL PRIMARY KEY,
@@ -28,13 +25,21 @@ CREATE TABLE IF NOT EXISTS technic
     image       VARCHAR(124)       NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS basket
+(
+    id         BIGSERIAL PRIMARY KEY,
+    users_id   BIGINT REFERENCES users (id) ON DELETE CASCADE   NOT NULL,
+    technic_id BIGINT REFERENCES technic (id) ON DELETE CASCADE NOT NULL,
+    UNIQUE (users_id, technic_id)
+);
+
 CREATE TABLE IF NOT EXISTS orders
 (
     id                BIGSERIAL PRIMARY KEY,
-    product           VARCHAR(1024)                 NOT NULL,
-    user_id           BIGINT REFERENCES users (id) NOT NULL,
-    date_registration DATE                         NOT NULL,
-    date_close        DATE                         NOT NULL,
-    status            VARCHAR(32)                  NOT NULL,
-    total             INT                          NOT NULL
+    product           VARCHAR(1024)                                  NOT NULL,
+    user_id           BIGINT REFERENCES users (id) ON DELETE CASCADE NOT NULL,
+    date_registration DATE                                           NOT NULL,
+    date_close        DATE                                           NOT NULL,
+    status            VARCHAR(32)                                    NOT NULL,
+    total             INT                                            NOT NULL
 );

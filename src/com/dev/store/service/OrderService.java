@@ -47,6 +47,12 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    public List<OrderReadDto> findAllByStatusByUserId(String status, Long userId){
+        return orderDao.findAllByStatusByUserId(status, userId).stream()
+                .map(mapper::map)
+                .collect(Collectors.toList());
+    }
+
     public List<TechnicReadDto> findAllBasket(Long id) {
         return basketService.findAllBasket(id);
     }

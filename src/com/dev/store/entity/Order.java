@@ -13,11 +13,11 @@ import java.time.LocalDate;
 @Builder
 public class Order {
 
-    Long id;
-    String product;
-    Long userId;
-    LocalDate dateRegistration;
-    LocalDate dateClose;
-    Status status;
-    Integer total;
+    private Long id;
+    private String product;
+    private Long userId;
+    private LocalDate dateRegistration;
+    private LocalDate dateClose;
+    private Status status;
+    private Integer total;
 }

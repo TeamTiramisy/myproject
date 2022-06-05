@@ -3,6 +3,7 @@ package com.dev.store.servlet;
 import com.dev.store.dto.UserCreateDto;
 import com.dev.store.dto.UserReadDto;
 import com.dev.store.exception.ValidationException;
+import com.dev.store.service.OrderService;
 import com.dev.store.service.UserService;
 import com.dev.store.util.JspHelper;
 import jakarta.servlet.ServletException;
@@ -17,9 +18,15 @@ import java.io.IOException;
 public class AccountServlet extends HttpServlet {
 
     private final UserService userService = UserService.getInstance();
+    private final OrderService orderService = OrderService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        UserReadDto userReadDto = (UserReadDto) req.getSession().getAttribute("user");
+        Long id = userReadDto.getId();
+
+        req.setAttribute("orders" ,orderService.findAllByStatusByUserId("ACCEPTED", id));
+
         req.getRequestDispatcher(JspHelper.getPath("account"))
                 .forward(req, resp);
     }
